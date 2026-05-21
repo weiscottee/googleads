@@ -1,50 +1,62 @@
-# Google Ads Agent Script Library
+# AI Google Ads Scripts: OpenAI + Gemini PPC Automation Toolkit
 
-Google Ads Scripts for AI-assisted PPC operations: keyword expansion, negative
-keyword mining, search-term audits, copy coverage checks, and scheduled account
-reports.
+[![GitHub stars](https://img.shields.io/github/stars/weiscottee/googleads?style=social)](https://github.com/weiscottee/googleads/stargazers)
+[![Google Ads Scripts](https://img.shields.io/badge/Google%20Ads-Scripts-4285F4)](https://developers.google.com/google-ads/scripts)
+[![OpenAI](https://img.shields.io/badge/OpenAI-PPC%20automation-111111)](https://openai.com/)
+[![Gemini](https://img.shields.io/badge/Gemini-search%20term%20classification-1a73e8)](https://ai.google.dev/)
 
-The main library was packaged from the Google Drive document
-`轻量级谷歌广告Agent合集.docx`. Each script is standalone and should be pasted into
-the Google Ads Scripts editor.
+Copy-paste Google Ads Scripts for AI-assisted PPC workflows: search term mining,
+keyword expansion, negative keyword automation, ad copy coverage audits, and
+weekly/monthly performance reporting with Google Sheets.
 
-## Scripts
+Built for PPC specialists, Google Ads agencies, and in-house growth teams that
+want practical automation without building a full Google Ads API application.
 
-| Script | Source name | Purpose | AI provider |
+## What You Can Automate
+
+| Workflow | Use this script | What it does | AI |
 | --- | --- | --- | --- |
-| `scripts/brand-impression-share-alert.js` | 展示分额预警 | Sends an email alert when brand campaign search impression share drops or changes sharply. | None |
-| `scripts/gemini-competitor-query-expander-negatives.js` | 竞品词_拓词+否词_0704 | Uses Gemini to classify competitor search queries, then adds exact positives or exact negatives. | Gemini |
-| `scripts/openai-sheet-keyword-adder.js` | 一键加词 | Reads keywords from Google Sheets, maps them to the best ad group with OpenAI, then adds exact and phrase keywords. | OpenAI |
-| `scripts/openai-high-registration-keyword-expander.js` | 行业词_拓词_高注册词 | Expands high-registration industry terms into ad groups with OpenAI matching and labels new keywords. | OpenAI |
-| `scripts/openai-negative-keyword-embedding-audit.js` | 向量否词 | Scores search terms against ad group names with embeddings and adds low-similarity exact negatives. | OpenAI |
-| `scripts/account-weekly-performance-report.js` | 自动周报 | Exports weekly account-level performance metrics and period-over-period comparisons to Google Sheets. | None |
-| `scripts/account-monthly-performance-report.js` | 月报导出 | Exports monthly account-level performance metrics and period-over-period comparisons to Google Sheets. | None |
-| `scripts/converting-negative-keyword-audit.js` | 一键查询有出单的否定词 | Finds converting search terms that are currently exact negative keywords. | None |
-| `scripts/low-registration-negative-keyword-miner.js` | 行业词_否词_低注册词 | Finds low-registration search terms and exports negative keyword candidates. | None |
-| `scripts/uncovered-search-term-copy-audit.js` | 文案优化_一键查找未覆盖搜索词 | Finds converting search terms that are not covered in ad copy for copy optimization. | None |
+| Protect brand traffic | `scripts/brand-impression-share-alert.js` | Sends an email alert when brand campaign search impression share drops or changes sharply. | None |
+| Mine competitor search terms | `scripts/gemini-competitor-query-expander-negatives.js` | Uses Gemini to classify competitor search queries, then adds exact positives or exact negatives. | Gemini |
+| Add keywords from a sheet | `scripts/openai-sheet-keyword-adder.js` | Reads keywords from Google Sheets, maps them to the best ad group, then adds exact and phrase keywords. | OpenAI |
+| Expand high-converting industry terms | `scripts/openai-high-registration-keyword-expander.js` | Finds promising search terms, matches them to ad groups, adds keywords, and labels the new keywords. | OpenAI |
+| Audit weak search-term relevance | `scripts/openai-negative-keyword-embedding-audit.js` | Scores search terms against ad group names with embeddings and adds low-similarity exact negatives. | OpenAI |
+| Export a weekly account report | `scripts/account-weekly-performance-report.js` | Writes weekly account metrics and period-over-period changes to Google Sheets. | None |
+| Export a monthly account report | `scripts/account-monthly-performance-report.js` | Writes monthly account metrics and period-over-period changes to Google Sheets. | None |
+| Find converting negative keywords | `scripts/converting-negative-keyword-audit.js` | Finds search terms with conversions that are currently blocked by exact negative keywords. | None |
+| Mine low-registration negatives | `scripts/low-registration-negative-keyword-miner.js` | Finds low-registration search terms and exports negative keyword candidates. | None |
+| Audit uncovered ad-copy terms | `scripts/uncovered-search-term-copy-audit.js` | Finds converting search terms that are not covered in ad copy, so copy can be improved. | None |
 
 The repo also keeps `scripts/openai-converting-query-harvester.js`, an earlier
-standalone OpenAI keyword harvester that was already in the repository before
-the full collection was added.
+standalone OpenAI keyword harvester.
 
-For the original Chinese names and a shorter lookup table, see
-`docs/script-library.md`.
+## Why This Repo Is Useful
 
-## Setup
+- **No backend required:** each file runs inside the Google Ads Scripts editor.
+- **Practical PPC workflows:** scripts focus on search terms, negatives,
+  keyword expansion, ad copy gaps, and reporting.
+- **AI where it helps:** OpenAI and Gemini are used for classification,
+  relevance matching, and embeddings instead of generic content generation.
+- **Google Sheets friendly:** scripts can write logs and reports to Sheets for
+  review before changes are applied.
+- **Safety first:** credentials, sheet IDs, account emails, and campaign filters
+  are placeholders in this public repo.
+
+## Quick Start
 
 1. Open Google Ads.
 2. Go to **Tools and settings** > **Bulk actions** > **Scripts**.
 3. Create a new script.
-4. Paste one file from `scripts/` into the editor.
+4. Copy one file from `scripts/` into the editor.
 5. Fill in the configuration variables at the top of the script.
-6. Run in preview first, inspect the logs and spreadsheet output, then schedule.
+6. Run in preview mode first.
+7. Review the logs and spreadsheet output.
+8. Schedule only after a safe preview run.
 
-## Configuration
+## Common Configuration
 
 Every script keeps credentials and private account details as placeholders. Do
 not commit real values.
-
-Typical fields:
 
 ```js
 var GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
@@ -57,18 +69,24 @@ var CAMPAIGN_NAME_CONDITION = "YOUR_CAMPAIGN_NAME_KEYWORD";
 ## Safety Notes
 
 Some scripts can modify live Google Ads accounts by adding keywords or negative
-keywords. Always use preview mode first, start with a narrow
-`CAMPAIGN_NAME_CONDITION`, and review the generated spreadsheet logs before
-running on a schedule.
+keywords. Always use preview mode first, start with a narrow campaign filter,
+and review the generated spreadsheet logs before running on a schedule.
 
 API calls may incur provider costs. Keep API keys private and rotate any key
 that was previously pasted into a shared document or public file.
+
+## Project Docs
+
+- `docs/script-library.md` maps the original script names to their packaged file names.
+- `docs/security.md` explains what was sanitized before publishing.
+- `docs/growth-playbook.md` gives a launch and distribution plan for getting more traffic.
 
 ## Repository Layout
 
 ```text
 .
 ├── docs/
+│   ├── growth-playbook.md
 │   ├── script-library.md
 │   └── security.md
 ├── scripts/
@@ -85,3 +103,6 @@ that was previously pasted into a shared document or public file.
 │   └── uncovered-search-term-copy-audit.js
 └── README.md
 ```
+
+If this saves you time in Google Ads, star the repo so other PPC operators can
+find it too.
