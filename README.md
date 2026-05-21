@@ -1,82 +1,61 @@
-# googleads
-A collection of my Google Ads scripts for automation and reporting.
+# Google Ads Automation Scripts
 
-Of course! This is an excellent script to showcase. It's complex, practical, and uses an external AI service, which makes for a very strong portfolio piece.
+A small library of Google Ads Scripts for search-term mining, keyword expansion,
+negative keyword auditing, and AI-assisted ad group matching.
 
-I have rewritten the README for you in professional English. I've structured it to be clear, concise, and easy for anyone (a recruiter, a future colleague, or just a curious developer) to understand what the script does, why it's valuable, and how to use it.
+These scripts are designed for the Google Ads Scripts editor. They are not npm
+packages and do not run directly in Node.js.
 
-Just copy and paste the content below into your `README.md` file on GitHub.
+## Scripts
 
----
+| Script | Purpose | AI provider |
+| --- | --- | --- |
+| `scripts/gemini-search-query-variant-manager.js` | Classifies recent search queries as ad-group variants or mismatches, then can add exact positive or negative keywords. | Gemini |
+| `scripts/openai-converting-query-harvester.js` | Finds converting search terms that are not already keywords, routes them to the best ad group, adds exact and phrase keywords, labels them, and logs results. | OpenAI |
+| `scripts/openai-negative-keyword-embedding-audit.js` | Scores search terms against ad group names with embeddings plus token overlap and can add low-similarity exact negatives. | OpenAI |
 
-```markdown
-# AI-Powered Google Ads Search Term Management Script
+## Setup
 
-This Google Ads Script automates the process of managing converting search terms by leveraging the OpenAI API for intelligent language detection and semantic matching. The script runs weekly to identify high-performing search queries, intelligently adds them as new keywords to the most relevant ad groups, and logs all actions to a Google Sheet for easy review.
+1. Open Google Ads.
+2. Go to **Tools and settings** > **Bulk actions** > **Scripts**.
+3. Create a new script.
+4. Paste one file from `scripts/` into the editor.
+5. Fill in the configuration variables at the top of the script.
+6. Run in preview first, inspect the logs and spreadsheet output, then schedule.
 
-This project was developed to streamline Pay-Per-Click (PPC) account management, reduce manual labor, and improve campaign performance by making data-driven decisions automatically.
+## Configuration
 
-## Key Features
+Every script keeps credentials as placeholders. Do not commit real values.
 
--   **Automated Keyword Harvesting**: Scans the search query report for terms that have led to conversions but are not yet keywords.
--   **AI-Powered Language Detection**: Uses the OpenAI API (e.g., GPT-4o) to accurately identify the language of each search term (`fr`, `it`, `es`, `de`, `zh`, or `other`).
--   **Intelligent Ad Group Matching**: Leverages the OpenAI API to perform semantic matching, assigning the new keyword to the most contextually relevant ad group based on its name.
--   **Multi-Lingual Campaign Routing**: Automatically routes keywords to the correct language-specific campaigns.
--   **Dynamic Labeling**: Applies a date-stamped label (e.g., `Converted_20250610`) to all newly added keywords for performance tracking.
--   **Automated Reporting**: Generates a detailed report in a Google Sheet, listing all new keywords added, their campaign/ad group, and highlights the new additions.
+Typical fields:
 
-## Technology Stack
+```js
+var GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
+var OPENAI_API_KEY = "YOUR_OPENAI_API_KEY";
+var SPREADSHEET_ID = "YOUR_GOOGLE_SHEET_ID";
+var LOG_SPREADSHEET_URL = "YOUR_GOOGLE_SHEET_URL";
+var CAMPAIGN_NAME_CONDITION = "YOUR_CAMPAIGN_NAME_KEYWORD";
+```
 
--   **Google Ads Scripts (JavaScript)**
--   **OpenAI API** (for language detection and semantic matching)
--   **Google Apps Script Services**:
-    -   `UrlFetchApp` for making API calls.
-    -   `SpreadsheetApp` for automated reporting.
+## Safety Notes
 
-## How to Use
+These scripts can modify live Google Ads accounts by adding keywords or negative
+keywords. Always use preview mode first, start with a narrow
+`CAMPAIGN_NAME_CONDITION`, and review the generated spreadsheet logs before
+running on a schedule.
 
-### 1. Prerequisites
--   An active Google Ads account.
--   An OpenAI API key.
--   A Google Sheet for logging.
+API calls may incur provider costs. Keep API keys private and rotate any key
+that was previously pasted into a shared document or public file.
 
-### 2. Setup
+## Repository Layout
 
-1.  **Copy the Script**: Copy the entire code from the `.js` file in this repository.
-2.  **Open Google Ads Scripts Editor**:
-    -   In your Google Ads account, navigate to **Tools & Settings** > **BULK ACTIONS** > **Scripts**.
-    -   Click the `+` button to create a new script.
-    -   Paste the code into the editor.
-3.  **Configure the Script**:
-    -   At the top of the script, you **must** update the configuration variables with your own details:
-    ```javascript
-    // The part of the campaign name that the script should look for.
-    var CAMPAIGN_NAME_CONDITION = "function"; 
-    // The URL of the Google Sheet for logging.
-    var LOG_SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/your-sheet-id/edit";
-    // Your OpenAI API Key.
-    var OPENAI_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxx"; 
-    // The default bid for new keywords.
-    var DEFAULT_CPC_BID = 1.0;
-    ```
-4.  **Authorize the Script**:
-    -   Save the script.
-    -   Click **Run** once. A dialog box will appear asking for authorization. Grant the necessary permissions for the script to access your Google Ads data, external URLs (OpenAI), and Google Sheets.
-5.  **Schedule the Script**:
-    -   Set the script to run on a schedule. This script is designed to run weekly (e.g., every Friday). In the script editor, set the **Frequency** to `Weekly` and choose a day and time.
-
-### 3. How It Works
-
--   The script runs automatically at the scheduled time.
--   It fetches search terms from the last 7 days that resulted in at least one conversion.
--   For each term, it calls the OpenAI API to determine its language.
--   Based on the language, it finds the appropriate campaign (e.g., campaigns containing "fr" for French terms).
--   It then calls the OpenAI API again to find the best-matching ad group within that campaign.
--   The search term is added as both a **[Exact Match]** and a **"Phrase Match"** keyword to the selected ad group.
--   All newly created keywords are labeled for tracking.
--   Finally, a new sheet is created in your specified Google Sheet, containing a detailed log of all actions taken.
-
----
-
-**Disclaimer**: This script is provided as a portfolio example. All sensitive information such as API keys, account IDs, and specific campaign names has been removed or replaced with placeholders for security and confidentiality. Please use with caution and test thoroughly in a non-critical environment before deploying in a live account.
+```text
+.
+├── docs/
+│   └── security.md
+├── scripts/
+│   ├── gemini-search-query-variant-manager.js
+│   ├── openai-converting-query-harvester.js
+│   └── openai-negative-keyword-embedding-audit.js
+└── README.md
 ```

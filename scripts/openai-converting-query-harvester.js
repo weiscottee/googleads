@@ -32,7 +32,7 @@ var DAYS_BACK = 7;
 var LOG_SPREADSHEET_URL = "YOUR_GOOGLE_SHEET_URL_HERE";
 
 // Your secret API key from OpenAI.
-// Example: "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+// Example: "YOUR_OPENAI_API_KEY_HERE"
 var OPENAI_API_KEY = "YOUR_OPENAI_API_KEY_HERE";
 
 // The OpenAI endpoint for chat completions.
@@ -155,7 +155,7 @@ function classifyLanguage(searchTerm) {
     if (response) {
         var content = response.choices[0].message.content.trim().toLowerCase();
         var validLangs = ["fr", "it", "es", "de", "zh"];
-        if (validLangs.indexOf(content) >= -1) {
+        if (validLangs.indexOf(content) >= 0) {
             return content;
         }
     }
@@ -455,4 +455,3 @@ function addLog(message) {
     LOG_MESSAGES.push(logEntry);
     Logger.log(logEntry);
 }
-```
